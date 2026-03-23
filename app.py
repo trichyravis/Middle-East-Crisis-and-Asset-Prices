@@ -362,14 +362,35 @@ CHART_LAYOUT = dict(
 CRISIS_DATE_STR = CRISIS_DATE.strftime("%Y-%m-%d")
 
 def add_crisis_line(fig, row=None, col=None):
-    kwargs = dict(row=row, col=col) if row else {}
-    fig.add_vline(
+    """
+    add_vline with annotation is broken in Plotly 6.x for datetime axes
+    (shapeannotation._mean fails on timestamp arithmetic).
+    Use add_shape + add_annotation instead — fully equivalent, no bug.
+    """
+    shape_kwargs = dict(row=row, col=col) if row else {}
+    annot_kwargs = dict(row=row, col=col) if row else {}
+
+    fig.add_shape(
+        type="line",
+        x0=CRISIS_DATE_STR, x1=CRISIS_DATE_STR,
+        y0=0, y1=1,
+        xref="x", yref="paper",
+        line=dict(color="rgba(255,71,87,0.8)", width=2, dash="dash"),
+        **shape_kwargs
+    )
+    fig.add_annotation(
         x=CRISIS_DATE_STR,
-        line=dict(color='rgba(255,71,87,0.8)', width=2, dash='dash'),
-        annotation_text="⚔ Oct 7 Crisis",
-        annotation_font_color="#ff6b6b",
-        annotation_font_size=11,
-        **kwargs
+        y=1.0,
+        xref="x", yref="paper",
+        text="⚔ Oct 7 Crisis",
+        showarrow=False,
+        font=dict(color="#ff6b6b", size=11),
+        xanchor="left",
+        yanchor="bottom",
+        bgcolor="rgba(26,35,50,0.7)",
+        bordercolor="rgba(255,71,87,0.4)",
+        borderwidth=1,
+        **annot_kwargs
     )
 
 
@@ -599,20 +620,35 @@ with tabs[1]:
         fig.add_hline(y=0, line=dict(color='rgba(255,215,0,0.4)', width=1, dash='dot'))
         add_crisis_line(fig)
 
-        # Shade regions
-        fig.add_vrect(
-            x0=PRE_START, x1=CRISIS_DATE,
-            fillcolor='rgba(0,100,255,0.04)', line_width=0,
-            annotation_text="Pre-Crisis Period",
-            annotation_position="top left",
-            annotation_font_color="#667eea"
+        # Shade pre-crisis region
+        fig.add_shape(
+            type="rect",
+            x0=PRE_START.strftime("%Y-%m-%d"), x1=CRISIS_DATE_STR,
+            y0=0, y1=1, xref="x", yref="paper",
+            fillcolor="rgba(0,100,255,0.04)", line_width=0
         )
-        fig.add_vrect(
-            x0=CRISIS_DATE, x1=POST_END,
-            fillcolor='rgba(255,71,87,0.04)', line_width=0,
-            annotation_text="Post-Crisis Period",
-            annotation_position="top right",
-            annotation_font_color="#ff6b6b"
+        fig.add_annotation(
+            x=PRE_START.strftime("%Y-%m-%d"), y=0.97,
+            xref="x", yref="paper",
+            text="Pre-Crisis Period", showarrow=False,
+            font=dict(color="#667eea", size=11),
+            xanchor="left", yanchor="top",
+            bgcolor="rgba(26,35,50,0.0)"
+        )
+        # Shade post-crisis region
+        fig.add_shape(
+            type="rect",
+            x0=CRISIS_DATE_STR, x1=POST_END.strftime("%Y-%m-%d"),
+            y0=0, y1=1, xref="x", yref="paper",
+            fillcolor="rgba(255,71,87,0.04)", line_width=0
+        )
+        fig.add_annotation(
+            x=POST_END.strftime("%Y-%m-%d"), y=0.97,
+            xref="x", yref="paper",
+            text="Post-Crisis Period", showarrow=False,
+            font=dict(color="#ff6b6b", size=11),
+            xanchor="right", yanchor="top",
+            bgcolor="rgba(26,35,50,0.0)"
         )
 
         layout = CHART_LAYOUT.copy()
