@@ -716,7 +716,7 @@ US &amp; Israel struck Iran on <strong style='color:#ff9966;-webkit-text-fill-co
 Strait of Hormuz closed. Brent crude surged past <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>$100/bbl</strong>.
 Gold, Defense ETFs &amp; DXY spiked. INR depreciated on risk-off flows. Bitcoin tested its safe-haven narrative. Global equity markets fell sharply.
 This tool compares market behaviour <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>2 months before</strong> vs
-<strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>post-war</strong> across 20 assets in real time.
+<strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>post-war</strong> across 23 assets — Commodities, Equities, Currencies, Crypto &amp; Defense — in real time.
 </span>
 </div>
 """, unsafe_allow_html=True)
@@ -1342,9 +1342,15 @@ with tabs[5]:
             mime="text/csv"
         )
 
-    # Key Findings
+    # Key Findings — crypto-aware, category-tagged
     st.markdown("---")
     st.markdown("#### 📝 Key Findings: 2026 Iran War Market Impact")
+
+    CATEGORY_EMOJI = {
+        "commodity": "🛢", "etf": "📦", "index": "📈",
+        "volatility": "🌡", "bond": "🏦", "currency": "💱",
+        "crypto": "₿", "stock": "🏭"
+    }
 
     findings = []
     for name in available:
@@ -1352,24 +1358,149 @@ with tabs[5]:
         if df.empty: continue
         m = compute_metrics(df, CRISIS_DATE)
         if not m: continue
-        delta = m['post_return_pct'] - m['pre_return_pct']
-        vol_delta = m['post_volatility'] - m['pre_volatility']
-        findings.append((name, delta, vol_delta, m['post_return_pct']))
+        cat  = FLAT_ASSETS[name].get("category", "")
+        emoji = CATEGORY_EMOJI.get(cat, "")
+        findings.append({
+            "name": name, "emoji": emoji, "category": cat,
+            "post_ret": m['post_return_pct'],
+            "pre_ret":  m['pre_return_pct'],
+            "delta":    m['post_return_pct'] - m['pre_return_pct'],
+            "post_vol": m['post_volatility'],
+            "pre_vol":  m['pre_volatility'],
+        })
 
-    findings.sort(key=lambda x: abs(x[1]), reverse=True)
+    # ── Row 1: Winners / Losers ──────────────────────────────────────────────
+    kf_c1, kf_c2 = st.columns(2)
+    with kf_c1:
+        st.markdown("""<div style='color:#28a745;-webkit-text-fill-color:#28a745;
+            font-weight:700;font-size:0.95rem;margin-bottom:0.4rem;'>
+            🏆 Biggest Post-War Winners</div>""", unsafe_allow_html=True)
+        for f in sorted(findings, key=lambda x: x["post_ret"], reverse=True)[:5]:
+            st.markdown(f"""<div style='background:rgba(40,167,69,0.08);border-left:3px solid #28a745;
+                border-radius:4px;padding:0.35rem 0.8rem;margin-bottom:0.3rem;font-size:0.85rem;'>
+                <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-weight:600;'>
+                {f["emoji"]} {f["name"]}</span>
+                <span style='color:#28a745;-webkit-text-fill-color:#28a745;float:right;font-family:JetBrains Mono,monospace;font-weight:700;'>
+                {f["post_ret"]:+.2f}%</span></div>""", unsafe_allow_html=True)
 
-    insight_cols = st.columns(2)
-    with insight_cols[0]:
-        st.markdown("**🏆 Biggest Post-Crisis Winners**")
-        winners = sorted(findings, key=lambda x: x[3], reverse=True)[:3]
-        for f in winners:
-            st.success(f"**{f[0]}**: Post-crisis {f[3]:+.1f}%")
+    with kf_c2:
+        st.markdown("""<div style='color:#dc3545;-webkit-text-fill-color:#dc3545;
+            font-weight:700;font-size:0.95rem;margin-bottom:0.4rem;'>
+            📉 Biggest Post-War Losers</div>""", unsafe_allow_html=True)
+        for f in sorted(findings, key=lambda x: x["post_ret"])[:5]:
+            st.markdown(f"""<div style='background:rgba(220,53,69,0.08);border-left:3px solid #dc3545;
+                border-radius:4px;padding:0.35rem 0.8rem;margin-bottom:0.3rem;font-size:0.85rem;'>
+                <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-weight:600;'>
+                {f["emoji"]} {f["name"]}</span>
+                <span style='color:#dc3545;-webkit-text-fill-color:#dc3545;float:right;font-family:JetBrains Mono,monospace;font-weight:700;'>
+                {f["post_ret"]:+.2f}%</span></div>""", unsafe_allow_html=True)
 
-    with insight_cols[1]:
-        st.markdown("**📉 Biggest Post-Crisis Losers**")
-        losers = sorted(findings, key=lambda x: x[3])[:3]
-        for f in losers:
-            st.error(f"**{f[0]}**: Post-crisis {f[3]:+.1f}%")
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── Row 2: Category-group summaries ─────────────────────────────────────
+    kf_c3, kf_c4, kf_c5 = st.columns(3)
+
+    crypto_findings  = [f for f in findings if f["category"] == "crypto"]
+    currency_findings = [f for f in findings if f["category"] == "currency"]
+    energy_findings  = [f for f in findings if f["category"] == "commodity"]
+    defense_findings = [f for f in findings if f["category"] in ("etf","stock") and
+                        f["name"] in ("ITA (Defense ETF)","LMT (Lockheed)","RTX (Raytheon)")]
+    haven_findings   = [f for f in findings if f["name"] in ("Gold","Silver","US 10Y Treasury")]
+
+    with kf_c3:
+        if crypto_findings:
+            st.markdown("""<div style='background:#112240;border:1px solid rgba(247,147,26,0.3);
+                border-top:3px solid #F7931A;border-radius:8px;padding:1rem 1.2rem;'>
+                <div style='color:#F7931A;-webkit-text-fill-color:#F7931A;font-weight:700;
+                margin-bottom:0.6rem;'>₿ Crypto Response</div>""", unsafe_allow_html=True)
+            for f in crypto_findings:
+                color = "#28a745" if f["post_ret"] >= 0 else "#dc3545"
+                arrow = "▲" if f["post_ret"] >= 0 else "▼"
+                role  = "Safe-Haven ✓" if f["post_ret"] > 0 else "Risk Asset ✗"
+                st.markdown(f"""<div style='font-size:0.82rem;margin-bottom:0.4rem;'>
+                    <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;'>{f["name"]}</span><br>
+                    <span style='color:{color};-webkit-text-fill-color:{color};font-family:JetBrains Mono,monospace;'>
+                    {arrow} {f["post_ret"]:+.2f}%</span>
+                    <span style='color:#8892b0;-webkit-text-fill-color:#8892b0;font-size:0.75rem;'>
+                    &nbsp;→ {role}</span></div>""", unsafe_allow_html=True)
+            vol_change = np.mean([f["post_vol"]-f["pre_vol"] for f in crypto_findings])
+            st.markdown(f"""<div style='font-size:0.78rem;color:#8892b0;-webkit-text-fill-color:#8892b0;
+                border-top:1px solid rgba(247,147,26,0.2);margin-top:0.5rem;padding-top:0.5rem;'>
+                Avg vol shift: <span style='color:#F7931A;-webkit-text-fill-color:#F7931A;'>
+                {vol_change:+.1f}%</span> annualised</div>""", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+    with kf_c4:
+        if currency_findings:
+            st.markdown("""<div style='background:#112240;border:1px solid rgba(255,107,157,0.3);
+                border-top:3px solid #FF6B9D;border-radius:8px;padding:1rem 1.2rem;'>
+                <div style='color:#FF6B9D;-webkit-text-fill-color:#FF6B9D;font-weight:700;
+                margin-bottom:0.6rem;'>💱 Currency Response</div>""", unsafe_allow_html=True)
+            for f in currency_findings:
+                color = "#28a745" if f["post_ret"] >= 0 else "#dc3545"
+                arrow = "▲" if f["post_ret"] >= 0 else "▼"
+                note  = "USD strengthened" if f["name"]=="DXY (USD Index)" and f["post_ret"]>0 else                         "INR depreciated" if f["name"]=="USD/INR" and f["post_ret"]>0 else                         "USD weakened" if f["name"]=="DXY (USD Index)" else "INR appreciated"
+                st.markdown(f"""<div style='font-size:0.82rem;margin-bottom:0.4rem;'>
+                    <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;'>{f["name"]}</span><br>
+                    <span style='color:{color};-webkit-text-fill-color:{color};font-family:JetBrains Mono,monospace;'>
+                    {arrow} {f["post_ret"]:+.2f}%</span>
+                    <span style='color:#8892b0;-webkit-text-fill-color:#8892b0;font-size:0.75rem;'>
+                    &nbsp;→ {note}</span></div>""", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        if haven_findings:
+            st.markdown("""<div style='background:#112240;border:1px solid rgba(255,215,0,0.3);
+                border-top:3px solid #FFD700;border-radius:8px;padding:1rem 1.2rem;margin-top:0.8rem;'>
+                <div style='color:#FFD700;-webkit-text-fill-color:#FFD700;font-weight:700;
+                margin-bottom:0.6rem;'>🪙 Safe-Haven Response</div>""", unsafe_allow_html=True)
+            for f in haven_findings:
+                color = "#28a745" if f["post_ret"] >= 0 else "#dc3545"
+                arrow = "▲" if f["post_ret"] >= 0 else "▼"
+                st.markdown(f"""<div style='font-size:0.82rem;margin-bottom:0.4rem;'>
+                    <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;'>{f["name"]}</span>
+                    <span style='color:{color};-webkit-text-fill-color:{color};font-family:JetBrains Mono,monospace;float:right;'>
+                    {arrow} {f["post_ret"]:+.2f}%</span></div>""", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+    with kf_c5:
+        if defense_findings:
+            st.markdown("""<div style='background:#112240;border:1px solid rgba(225,112,85,0.3);
+                border-top:3px solid #E17055;border-radius:8px;padding:1rem 1.2rem;'>
+                <div style='color:#E17055;-webkit-text-fill-color:#E17055;font-weight:700;
+                margin-bottom:0.6rem;'>🛡 Defense & War Premium</div>""", unsafe_allow_html=True)
+            for f in defense_findings:
+                color = "#28a745" if f["post_ret"] >= 0 else "#dc3545"
+                arrow = "▲" if f["post_ret"] >= 0 else "▼"
+                st.markdown(f"""<div style='font-size:0.82rem;margin-bottom:0.4rem;'>
+                    <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;'>{f["name"]}</span>
+                    <span style='color:{color};-webkit-text-fill-color:{color};font-family:JetBrains Mono,monospace;float:right;'>
+                    {arrow} {f["post_ret"]:+.2f}%</span></div>""", unsafe_allow_html=True)
+            avg_def = np.mean([f["post_ret"] for f in defense_findings])
+            st.markdown(f"""<div style='font-size:0.78rem;color:#8892b0;-webkit-text-fill-color:#8892b0;
+                border-top:1px solid rgba(225,112,85,0.2);margin-top:0.5rem;padding-top:0.5rem;'>
+                Avg defense return: <span style='color:#E17055;-webkit-text-fill-color:#E17055;'>
+                {avg_def:+.1f}%</span></div>""", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        if energy_findings:
+            avg_en = np.mean([f["post_ret"] for f in energy_findings])
+            st.markdown(f"""<div style='background:#112240;border:1px solid rgba(255,107,53,0.3);
+                border-top:3px solid #FF6B35;border-radius:8px;padding:1rem 1.2rem;margin-top:0.8rem;'>
+                <div style='color:#FF6B35;-webkit-text-fill-color:#FF6B35;font-weight:700;
+                margin-bottom:0.4rem;'>🛢 Energy Shock</div>
+                <div style='font-size:0.82rem;'>""", unsafe_allow_html=True)
+            for f in energy_findings:
+                color = "#28a745" if f["post_ret"] >= 0 else "#dc3545"
+                arrow = "▲" if f["post_ret"] >= 0 else "▼"
+                st.markdown(f"""<span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;'>
+                    {f["name"]}</span>
+                    <span style='color:{color};-webkit-text-fill-color:{color};font-family:JetBrains Mono,monospace;float:right;'>
+                    {arrow} {f["post_ret"]:+.2f}%</span><br>""", unsafe_allow_html=True)
+            st.markdown(f"""</div>
+                <div style='font-size:0.78rem;color:#8892b0;-webkit-text-fill-color:#8892b0;
+                border-top:1px solid rgba(255,107,53,0.2);margin-top:0.5rem;padding-top:0.5rem;'>
+                Avg energy return: <span style='color:#FF6B35;-webkit-text-fill-color:#FF6B35;'>
+                {avg_en:+.1f}%</span> (Hormuz effect)</div></div>""", unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown(f"""
@@ -1408,7 +1539,7 @@ built to study the real-time market impact of the <strong style='color:#ff9966;-
 <p style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;line-height:1.8;'>
 The tool fetches <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>live data from Yahoo Finance</strong> and compares
 how 20 global financial assets behaved across two periods — approximately 2 months before and after the crisis trigger date —
-giving students and practitioners a quantitative framework to understand <em>geopolitical risk pricing</em> in financial markets.
+giving students and practitioners a quantitative framework to understand <em>geopolitical risk pricing</em> in financial markets — including whether <strong style='color:#F7931A;-webkit-text-fill-color:#F7931A;'>Bitcoin acts as a safe-haven or risk asset</strong> during war, and how the <strong style='color:#FF6B9D;-webkit-text-fill-color:#FF6B9D;'>Indian Rupee (USD/INR)</strong> responds to global risk-off flows.
 </p>
 </div>
         """, unsafe_allow_html=True)
@@ -1417,13 +1548,15 @@ giving students and practitioners a quantitative framework to understand <em>geo
 <div style='background:#112240;border:1px solid rgba(0,77,128,0.4);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1rem;'>
 <h4 style='color:#FFD700;-webkit-text-fill-color:#FFD700;margin-top:0;font-family:Playfair Display,serif;'>🎯 Learning Objectives</h4>
 <ul style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;line-height:2;padding-left:1.2rem;'>
-<li>Understand how <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>geopolitical shocks</strong> transmit across asset classes</li>
-<li>Analyse <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>safe-haven flight behaviour</strong> — Gold, USD, Treasuries</li>
-<li>Measure <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>Strait of Hormuz risk</strong> in crude oil and energy prices</li>
-<li>Quantify <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>volatility regime shifts</strong> using annualised standard deviation</li>
-<li>Apply <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>statistical significance testing</strong> (t-test) to return differences</li>
-<li>Interpret <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>correlation regime change</strong> during crisis periods</li>
-<li>Evaluate <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>defense sector outperformance</strong> as a war-premium proxy</li>
+<li>Understand how <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>geopolitical shocks</strong> transmit across asset classes — equities, bonds, commodities, currencies &amp; crypto</li>
+<li>Analyse <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>safe-haven flight behaviour</strong> — Gold, USD, Treasuries vs risk-off equities</li>
+<li>Measure <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>Strait of Hormuz risk</strong> pricing in WTI, Brent and Natural Gas</li>
+<li>Test the <strong style='color:#F7931A;-webkit-text-fill-color:#F7931A;'>Bitcoin safe-haven narrative</strong> — does BTC behave like Gold or like equities in a war?</li>
+<li>Evaluate <strong style='color:#FF6B9D;-webkit-text-fill-color:#FF6B9D;'>INR depreciation pressure</strong> via USD/INR vs DXY — EM currency stress under geopolitical risk</li>
+<li>Quantify <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>volatility regime shifts</strong> using annualised standard deviation pre vs post crisis</li>
+<li>Apply <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>statistical significance testing</strong> (Welch t-test) to return differences across all 23 assets</li>
+<li>Interpret <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>correlation regime change</strong> — does BTC correlate with Gold or VIX post-war?</li>
+<li>Evaluate <strong style='color:#E17055;-webkit-text-fill-color:#E17055;'>defense sector war premium</strong> — ITA, LMT, RTX outperformance vs broader market</li>
 </ul>
 </div>
         """, unsafe_allow_html=True)
@@ -1433,12 +1566,12 @@ giving students and practitioners a quantitative framework to understand <em>geo
 <h4 style='color:#FFD700;-webkit-text-fill-color:#FFD700;margin-top:0;font-family:Playfair Display,serif;'>⚙ Technical Stack</h4>
 <table style='width:100%;color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-size:0.85rem;border-collapse:collapse;'>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;width:140px;'>Framework</td><td>Streamlit</td></tr>
-<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Data Source</td><td>Yahoo Finance via yfinance (live, 1-hr cache)</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Data Source</td><td>Yahoo Finance via yfinance (live, 6-hr cache + manual refresh)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Charting</td><td>Plotly (interactive, dark-themed)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Statistics</td><td>SciPy — Welch t-test, return distributions</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Assets Covered</td><td>23 instruments across 6 categories (incl. USD/INR, BTC, ETH)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Crisis Date</td><td>Feb 28, 2026 (Operation Epic Fury)</td></tr>
-<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Analysis Window</td><td>Dec 28, 2025 → Mar 22, 2026</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Analysis Window</td><td>Dec 28, 2025 → Today (rolling live window)</td></tr>
 </table>
 </div>
         """, unsafe_allow_html=True)
