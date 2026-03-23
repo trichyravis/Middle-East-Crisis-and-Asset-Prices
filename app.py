@@ -340,23 +340,46 @@ section[data-testid="stSidebar"] hr {
     -webkit-text-fill-color: #e6f1ff !important;
 }
 
-/* ── MAIN AREA: expander ── */
+/* ── MAIN AREA: expander — full override ── */
 [data-testid="stExpander"] {
     background: #112240 !important;
-    border: 1px solid rgba(0,77,128,0.4) !important;
+    border: 1px solid rgba(0,77,128,0.5) !important;
     border-radius: 8px !important;
 }
-/* Expander header text */
+
+/* Expander header ribbon — the clickable bar */
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] > details > summary,
+[data-testid="stExpander"] details summary {
+    background: linear-gradient(135deg, #003366 0%, #004d80 100%) !important;
+    border-radius: 8px !important;
+    padding: 0.7rem 1rem !important;
+    border-bottom: 1px solid rgba(255,215,0,0.15) !important;
+    cursor: pointer !important;
+}
+
+/* Every text node inside the header ribbon */
+[data-testid="stExpander"] summary *,
 [data-testid="stExpander"] summary p,
 [data-testid="stExpander"] summary span,
 [data-testid="stExpander"] summary label,
-[data-testid="stExpander"] summary div {
-    color: #e6f1ff !important;
-    -webkit-text-fill-color: #e6f1ff !important;
-    font-weight: 600 !important;
+[data-testid="stExpander"] summary div,
+[data-testid="stExpander"] summary svg {
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    font-weight: 700 !important;
     font-size: 1rem !important;
+    fill: #FFD700 !important;
 }
-/* ALL content inside expander */
+
+/* Expanded state — keep styling consistent */
+[data-testid="stExpander"] details[open] summary {
+    background: linear-gradient(135deg, #004d80 0%, #003366 100%) !important;
+    border-bottom: 1px solid rgba(255,215,0,0.3) !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* ALL content inside expander body */
 [data-testid="stExpander"] *,
 [data-testid="stExpander"] p,
 [data-testid="stExpander"] span,
