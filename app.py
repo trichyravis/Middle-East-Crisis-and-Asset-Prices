@@ -656,6 +656,34 @@ st.html("""
 """)
 
 
+# ─── FLASH SUMMARY BANNER ────────────────────────────────────────────────────────
+st.markdown("""
+<div style='
+    background: linear-gradient(90deg, rgba(255,71,87,0.12) 0%, rgba(255,165,0,0.1) 50%, rgba(255,71,87,0.12) 100%);
+    border: 1px solid rgba(255,120,50,0.45);
+    border-left: 4px solid #FF4757;
+    border-radius: 8px;
+    padding: 0.75rem 1.4rem;
+    margin-bottom: 1rem;
+    user-select: none;
+    animation: pulse-border 3s ease-in-out infinite;
+'>
+<span style='color:#FF4757;-webkit-text-fill-color:#FF4757;font-weight:700;font-size:0.85rem;letter-spacing:0.5px;'>
+⚡ LIVE STUDY &nbsp;|&nbsp;
+</span>
+<span style='color:#FFD700;-webkit-text-fill-color:#FFD700;font-weight:700;font-size:0.85rem;'>
+2026 Iran War — Operation Epic Fury &nbsp;|&nbsp;
+</span>
+<span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-size:0.85rem;'>
+US &amp; Israel struck Iran on <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>Feb 28, 2026</strong>.
+Strait of Hormuz closed. Brent crude surged past <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>$100/bbl</strong>.
+Gold, Defense ETFs &amp; DXY spiked. Global equity markets fell sharply.
+This tool compares market behaviour <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>2 months before</strong> vs
+<strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>post-war</strong> across 20 assets in real time.
+</span>
+</div>
+""", unsafe_allow_html=True)
+
 # ─── LOAD DATA ───────────────────────────────────────────────────────────────────
 with st.spinner("⏳ Fetching real-time market data from Yahoo Finance…"):
     all_data = fetch_all_assets()
@@ -686,6 +714,7 @@ tabs = st.tabs([
     "🌡 Volatility & Risk",
     "🔗 Correlation Matrix",
     "📋 Statistical Summary",
+    "ℹ About This Project",
 ])
 
 
@@ -1257,7 +1286,7 @@ with tabs[5]:
     <div style='font-size:0.8rem; color:#667eea; text-align:center; padding:1rem;'>
         <strong>The Mountain Path – World of Finance</strong> &nbsp;|&nbsp;
         Prof. V. Ravichandran, 28+ Years Corporate Finance & Banking Experience, 10+ Years Academic Excellence<br>
-        Visiting Faculty: NMIMS Bangalore | BITS Pilani | RV University Bangalore | Goa Institute of Management<br>
+        Visiting Faculty @ Leading Business Schools in Bangalore &amp; India<br>
         🌐 <a href='https://themountainpathacademy.com' style='color:#FFD700;'>themountainpathacademy.com</a>
         &nbsp;|&nbsp;
         <a href='https://www.linkedin.com/in/trichyravis' style='color:#FFD700;'>LinkedIn</a>
@@ -1267,3 +1296,107 @@ with tabs[5]:
         <em>Data sourced from Yahoo Finance via yfinance. For educational purposes only. Not financial advice.</em>
     </div>
     """, unsafe_allow_html=True)
+
+
+# ════════════════════════════════════════════════════════════════════════════════
+# TAB 7: ABOUT THIS PROJECT
+# ════════════════════════════════════════════════════════════════════════════════
+with tabs[6]:
+    st.markdown("<div class='section-header'>About This Project</div>", unsafe_allow_html=True)
+
+    c1, c2 = st.columns([3, 2])
+
+    with c1:
+        st.markdown("""
+<div style='background:#112240;border:1px solid rgba(0,77,128,0.4);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1rem;'>
+<h4 style='color:#FFD700;-webkit-text-fill-color:#FFD700;margin-top:0;font-family:Playfair Display,serif;'>📌 Project Overview</h4>
+<p style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;line-height:1.8;'>
+This application is an <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>educational financial research tool</strong>
+built to study the real-time market impact of the <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>2026 Iran War
+(Operation Epic Fury)</strong> — the US-Israel joint military strikes on Iran that began on <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>February 28, 2026</strong>.
+</p>
+<p style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;line-height:1.8;'>
+The tool fetches <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>live data from Yahoo Finance</strong> and compares
+how 20 global financial assets behaved across two periods — approximately 2 months before and after the crisis trigger date —
+giving students and practitioners a quantitative framework to understand <em>geopolitical risk pricing</em> in financial markets.
+</p>
+</div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+<div style='background:#112240;border:1px solid rgba(0,77,128,0.4);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1rem;'>
+<h4 style='color:#FFD700;-webkit-text-fill-color:#FFD700;margin-top:0;font-family:Playfair Display,serif;'>🎯 Learning Objectives</h4>
+<ul style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;line-height:2;padding-left:1.2rem;'>
+<li>Understand how <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>geopolitical shocks</strong> transmit across asset classes</li>
+<li>Analyse <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>safe-haven flight behaviour</strong> — Gold, USD, Treasuries</li>
+<li>Measure <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>Strait of Hormuz risk</strong> in crude oil and energy prices</li>
+<li>Quantify <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>volatility regime shifts</strong> using annualised standard deviation</li>
+<li>Apply <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>statistical significance testing</strong> (t-test) to return differences</li>
+<li>Interpret <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>correlation regime change</strong> during crisis periods</li>
+<li>Evaluate <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>defense sector outperformance</strong> as a war-premium proxy</li>
+</ul>
+</div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+<div style='background:#112240;border:1px solid rgba(0,77,128,0.4);border-radius:12px;padding:1.5rem 2rem;'>
+<h4 style='color:#FFD700;-webkit-text-fill-color:#FFD700;margin-top:0;font-family:Playfair Display,serif;'>⚙ Technical Stack</h4>
+<table style='width:100%;color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-size:0.85rem;border-collapse:collapse;'>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;width:140px;'>Framework</td><td>Streamlit</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Data Source</td><td>Yahoo Finance via yfinance (live, 1-hr cache)</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Charting</td><td>Plotly (interactive, dark-themed)</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Statistics</td><td>SciPy — Welch t-test, return distributions</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Assets Covered</td><td>20 instruments across 5 categories</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Crisis Date</td><td>Feb 28, 2026 (Operation Epic Fury)</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Analysis Window</td><td>Dec 28, 2025 → Mar 22, 2026</td></tr>
+</table>
+</div>
+        """, unsafe_allow_html=True)
+
+    with c2:
+        st.markdown("""
+<div style='background:linear-gradient(135deg,#003366,#112240);border:1px solid rgba(255,215,0,0.25);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1rem;text-align:center;'>
+<div style='font-family:Playfair Display,serif;font-size:1.4rem;color:#FFD700;-webkit-text-fill-color:#FFD700;font-weight:700;margin-bottom:0.3rem;'>The Mountain Path</div>
+<div style='font-size:0.8rem;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;letter-spacing:2px;text-transform:uppercase;margin-bottom:1.2rem;'>World of Finance</div>
+<div style='width:60px;height:2px;background:#FFD700;margin:0 auto 1.2rem auto;'></div>
+<div style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-size:0.95rem;font-weight:700;margin-bottom:0.2rem;'>Prof. V. Ravichandran</div>
+<div style='color:#8892b0;-webkit-text-fill-color:#8892b0;font-size:0.8rem;line-height:1.7;margin-bottom:1rem;'>
+28+ Years Corporate Finance &amp; Banking<br>
+10+ Years Academic Excellence<br>
+Visiting Faculty @ Leading Business Schools<br>in Bangalore &amp; India
+</div>
+<div style='margin-bottom:0.8rem;'>
+<a href='https://themountainpathacademy.com' style='color:#FFD700;-webkit-text-fill-color:#FFD700;font-size:0.85rem;text-decoration:none;display:block;margin-bottom:0.4rem;'>
+🌐 themountainpathacademy.com</a>
+<a href='https://www.linkedin.com/in/trichyravis' style='color:#FFD700;-webkit-text-fill-color:#FFD700;font-size:0.85rem;text-decoration:none;display:block;margin-bottom:0.4rem;'>
+💼 LinkedIn: trichyravis</a>
+<a href='https://github.com/trichyravis' style='color:#FFD700;-webkit-text-fill-color:#FFD700;font-size:0.85rem;text-decoration:none;display:block;'>
+🐙 GitHub: trichyravis</a>
+</div>
+</div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+<div style='background:#112240;border:1px solid rgba(0,77,128,0.4);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1rem;'>
+<h4 style='color:#FFD700;-webkit-text-fill-color:#FFD700;margin-top:0;font-size:1rem;'>📚 Courses This Supports</h4>
+<ul style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-size:0.85rem;line-height:2;padding-left:1.2rem;margin:0;'>
+<li>Financial Risk Management</li>
+<li>Fixed Income Securities &amp; Analysis</li>
+<li>Financial Derivatives</li>
+<li>Investment Banking</li>
+<li>Alternative Investment Markets</li>
+<li>Value Risk &amp; Capital Markets</li>
+</ul>
+</div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+<div style='background:rgba(255,71,87,0.07);border:1px solid rgba(255,71,87,0.25);border-radius:12px;padding:1rem 1.5rem;font-size:0.78rem;'>
+<span style='color:#ff9966;-webkit-text-fill-color:#ff9966;font-weight:700;'>⚠ Disclaimer</span><br>
+<span style='color:#8892b0;-webkit-text-fill-color:#8892b0;line-height:1.7;display:block;margin-top:0.3rem;'>
+Data sourced from Yahoo Finance via yfinance. This tool is for
+<strong style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;'>educational purposes only</strong>.
+Not financial advice. Past market behaviour does not guarantee future results.
+</span>
+</div>
+        """, unsafe_allow_html=True)
