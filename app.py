@@ -29,7 +29,7 @@ st.set_page_config(
 # ─── CRISIS EVENT ───────────────────────────────────────────────────────────────
 CRISIS_DATE = datetime(2026, 2, 28)
 PRE_START   = CRISIS_DATE - timedelta(days=62)   # ~2 months before (Dec 28, 2025)
-POST_END    = datetime(2026, 3, 22)              # up to Mar 22 2026 (live data)
+POST_END    = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)  # always today
 
 # ─── ASSET UNIVERSE ─────────────────────────────────────────────────────────────
 ASSETS = {
@@ -444,7 +444,7 @@ hr { border-color: rgba(255,215,0,0.15) !important; }
 
 
 # ─── DATA FETCHING ───────────────────────────────────────────────────────────────
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=21600, show_spinner=False)
 def fetch_data(ticker: str, start: datetime, end: datetime) -> pd.DataFrame:
     try:
         df = yf.download(ticker, start=start, end=end, progress=False, auto_adjust=True)
@@ -460,7 +460,7 @@ def fetch_data(ticker: str, start: datetime, end: datetime) -> pd.DataFrame:
     except Exception as e:
         return pd.DataFrame()
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=21600, show_spinner=False)
 def fetch_all_assets():
     all_data = {}
     for name, meta in FLAT_ASSETS.items():
@@ -685,6 +685,30 @@ This tool compares market behaviour <strong style='color:#ADD8E6;-webkit-text-fi
 """, unsafe_allow_html=True)
 
 # ─── LOAD DATA ───────────────────────────────────────────────────────────────────
+# ─── LAST UPDATED + REFRESH ─────────────────────────────────────────────────────
+_now = datetime.now()
+_market_note = "Markets closed — showing last close prices" if _now.weekday() >= 5 else "Live market data"
+rc1, rc2, rc3 = st.columns([3, 1, 1])
+with rc1:
+    st.markdown(
+        f"<span style='font-size:0.78rem;color:#8892b0;-webkit-text-fill-color:#8892b0;'>"
+        f"🕐 Data as of: <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>"
+        f"{_now.strftime('%d %b %Y, %H:%M IST')}</strong> &nbsp;|&nbsp; {_market_note} "
+        f"&nbsp;|&nbsp; Cache refreshes every 6 hours</span>",
+        unsafe_allow_html=True
+    )
+with rc2:
+    if st.button("🔄 Refresh Data", use_container_width=True):
+        st.cache_data.clear()
+        st.rerun()
+with rc3:
+    st.markdown(
+        f"<span style='font-size:0.78rem;color:#8892b0;-webkit-text-fill-color:#8892b0;'>"
+        f"📅 Post-war window: <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>"
+        f"{POST_END.strftime('%d %b %Y')}</strong></span>",
+        unsafe_allow_html=True
+    )
+
 with st.spinner("⏳ Fetching real-time market data from Yahoo Finance…"):
     all_data = fetch_all_assets()
 
