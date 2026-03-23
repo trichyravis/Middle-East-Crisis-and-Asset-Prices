@@ -1,9 +1,8 @@
-
 """
-Middle East Crisis Market Impact Analyzer
+Iran–Israel War Market Impact Analyzer
 Prof. V. Ravichandran | The Mountain Path - World of Finance
 Analyzes Crude Oil, Gold, Silver & Major Stock Indices
-Crisis Event: October 7, 2023 – Hamas Attack on Israel
+Crisis Event: April 13, 2024 – Iran Direct Missile & Drone Attack on Israel
 """
 
 import streamlit as st
@@ -20,16 +19,16 @@ warnings.filterwarnings('ignore')
 
 # ─── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Middle East Crisis – Market Impact Analyzer",
+    page_title="Iran–Israel War – Market Impact Analyzer",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # ─── CRISIS EVENT ───────────────────────────────────────────────────────────────
-CRISIS_DATE = datetime(2023, 10, 7)
-PRE_START   = CRISIS_DATE - timedelta(days=65)   # ~2 months before
-POST_END    = CRISIS_DATE + timedelta(days=65)    # ~2 months after
+CRISIS_DATE = datetime(2024, 4, 13)
+PRE_START   = CRISIS_DATE - timedelta(days=60)   # 2 months before
+POST_END    = CRISIS_DATE + timedelta(days=60)    # 2 months after
 
 # ─── ASSET UNIVERSE ─────────────────────────────────────────────────────────────
 ASSETS = {
@@ -51,11 +50,17 @@ ASSETS = {
         "Nikkei 225":       {"ticker": "^N225", "color": "#FD79A8", "category": "index"},
         "Nifty 50 (India)": {"ticker": "^NSEI", "color": "#FFEAA7", "category": "index"},
     },
-    "⚡ Energy & Defense": {
-        "Natural Gas":      {"ticker": "NG=F",  "color": "#55EFC4", "category": "commodity"},
-        "XLE (Energy ETF)": {"ticker": "XLE",   "color": "#00B894", "category": "etf"},
-        "ITA (Defense ETF)":{"ticker": "ITA",   "color": "#E17055", "category": "etf"},
-        "USO (Oil ETF)":    {"ticker": "USO",   "color": "#FDCB6E", "category": "etf"},
+    "⚡ Energy, Defense & Safe Haven": {
+        "Natural Gas":        {"ticker": "NG=F",  "color": "#55EFC4", "category": "commodity"},
+        "XLE (Energy ETF)":   {"ticker": "XLE",   "color": "#00B894", "category": "etf"},
+        "ITA (Defense ETF)":  {"ticker": "ITA",   "color": "#E17055", "category": "etf"},
+        "USO (Oil ETF)":      {"ticker": "USO",   "color": "#FDCB6E", "category": "etf"},
+    },
+    "🛡 Geopolitical Proxies": {
+        "US 10Y Treasury":    {"ticker": "^TNX",  "color": "#74B9FF", "category": "bond"},
+        "DXY (USD Index)":    {"ticker": "DX-Y.NYB","color": "#A29BFE","category": "currency"},
+        "Israeli ETF (EIS)":  {"ticker": "EIS",   "color": "#55EFC4", "category": "etf"},
+        "LMT (Lockheed)":     {"ticker": "LMT",   "color": "#FD79A8", "category": "stock"},
     }
 }
 
@@ -554,7 +559,7 @@ def add_crisis_line(fig, row=None, col=None):
         x=CRISIS_DATE_STR,
         y=1.0,
         xref="x", yref="paper",
-        text="⚔ Oct 7 Crisis",
+        text="🚀 Apr 13 Iran Strike",
         showarrow=False,
         font=dict(color="#ff6b6b", size=11),
         xanchor="left",
@@ -578,13 +583,22 @@ with st.sidebar:
     <hr>
     """, unsafe_allow_html=True)
 
-    st.markdown("#### 🗓 Crisis Event")
+    st.markdown("#### 🗓 Crisis Timeline")
     st.markdown("""
-    <div style='background:rgba(255,71,87,0.1); border:1px solid rgba(255,71,87,0.3); border-radius:8px;
-                padding:0.8rem 1.2rem; margin:0.5rem 0; user-select:none;'>
-        <span style='color:#ff6b6b; -webkit-text-fill-color:#ff6b6b; font-weight:700;'>Oct 7, 2023</span><br>
-        <span style='color:#ff6b6b; -webkit-text-fill-color:#ff6b6b;'>Hamas Attack on Israel</span><br>
-        <span style='font-size:0.8rem; color:#a0aec0; -webkit-text-fill-color:#a0aec0;'>Start of Middle East Crisis</span>
+    <div style='background:rgba(255,71,87,0.08); border:1px solid rgba(255,71,87,0.35); border-radius:8px;
+                padding:0.9rem 1.2rem; margin:0.5rem 0; user-select:none; line-height:1.7;'>
+        <div style='color:#FFD700;-webkit-text-fill-color:#FFD700;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;'>Escalation Timeline</div>
+        <div style='font-size:0.8rem;'>
+        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Apr 1 2024</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Israel strikes Iranian consulate, Damascus</span><br>
+        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Apr 13 2024</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Iran fires 300+ drones &amp; missiles at Israel ★</span><br>
+        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Apr 19 2024</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Israel retaliatory strike on Isfahan</span><br>
+        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Oct 1 2024</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Iran ballistic missile barrage (2nd wave)</span>
+        </div>
+        <div style='font-size:0.72rem;color:#8892b0;-webkit-text-fill-color:#8892b0;margin-top:6px;'>★ = Reference crisis date (Apr 13, 2024)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -595,14 +609,15 @@ with st.sidebar:
         for name in items:
             if st.checkbox(name, value=name in [
                 "Crude Oil (WTI)", "Gold", "Silver", "S&P 500",
-                "VIX (Fear Index)", "Nifty 50 (India)", "ITA (Defense ETF)"
+                "VIX (Fear Index)", "ITA (Defense ETF)", "LMT (Lockheed)",
+                "Israeli ETF (EIS)", "DXY (USD Index)"
             ], key=f"cb_{name}"):
                 selected.append(name)
 
     st.markdown("---")
     st.markdown("#### ⚙ Chart Options")
     normalize = st.checkbox("Normalize to Crisis Date", value=True,
-                            help="Show % change from Oct 7 for comparison")
+                            help="Show % change from Apr 13, 2024 (crisis day) for comparison")
     show_vol  = st.checkbox("Show Volatility Band", value=False)
     log_scale = st.checkbox("Log Y-Axis", value=False)
 
@@ -624,9 +639,9 @@ with st.sidebar:
 # ─── HERO HEADER ─────────────────────────────────────────────────────────────────
 st.html("""
 <div class='hero-header'>
-    <div class='hero-title'>Middle East Crisis – Market Impact Analyzer</div>
-    <div class='hero-subtitle'>Crude Oil · Gold · Silver · Global Equity Indices · Energy & Defense ETFs</div>
-    <div class='hero-crisis'>⚔ Event: Hamas Attack on Israel — October 7, 2023</div>
+    <div class='hero-title'>Iran–Israel War – Market Impact Analyzer</div>
+    <div class='hero-subtitle'>Crude Oil · Gold · Silver · Global Equity Indices · Defense ETFs · Safe-Haven Assets</div>
+    <div class='hero-crisis'>🚀 Event: Iran Direct Missile &amp; Drone Strike on Israel — April 13, 2024</div>
     <div class='hero-brand'>
         The Mountain Path – World of Finance &nbsp;|&nbsp; Prof. V. Ravichandran
         &nbsp;|&nbsp; <a href='https://themountainpathacademy.com' style='color:#FFD700;'>themountainpathacademy.com</a>
@@ -673,7 +688,7 @@ tabs = st.tabs([
 # ════════════════════════════════════════════════════════════════════════════════
 with tabs[0]:
     st.html("<div class='section-header'>Raw Price Trajectories</div>")
-    st.markdown(f"*Analysis window: {PRE_START.strftime('%d %b %Y')} → {POST_END.strftime('%d %b %Y')} | Crisis: Oct 7, 2023*")
+    st.markdown(f"*Analysis window: {PRE_START.strftime('%d %b %Y')} → {POST_END.strftime('%d %b %Y')} | Crisis: Apr 13, 2024*")
 
     # KPI Row
     st.html("<div class='kpi-row'>")
@@ -721,13 +736,15 @@ with tabs[0]:
                 post_df = df[df.index >= CRISIS_DATE]
 
                 if not pre_df.empty:
+                    _h = color.lstrip('#')
+                    _r,_g,_b = int(_h[0:2],16), int(_h[2:4],16), int(_h[4:6],16)
                     fig.add_trace(go.Scatter(
                         x=pre_df.index, y=pre_df['Price'],
                         mode='lines',
                         name='Pre-Crisis',
                         line=dict(color=color, width=2),
                         fill='tozeroy',
-                        fillcolor=f"rgba{tuple(list(bytes.fromhex(color.lstrip('#'))) + [30])}".replace('(', '(').replace(',)', ',0.12)') if len(color)==7 else color,
+                        fillcolor=f'rgba({_r},{_g},{_b},0.12)',
                     ))
 
                 if not post_df.empty:
@@ -766,7 +783,7 @@ with tabs[0]:
 # TAB 2: NORMALIZED RETURNS
 # ════════════════════════════════════════════════════════════════════════════════
 with tabs[1]:
-    st.html("<div class='section-header'>Normalized Returns – All Assets (Indexed to Oct 7, 2023 = 0%)</div>")
+    st.html("<div class='section-header'>Normalized Returns – All Assets (Indexed to Apr 13, 2024 = 0%)</div>")
 
     if normalize:
         fig = go.Figure()
@@ -775,7 +792,7 @@ with tabs[1]:
             if df.empty: continue
             color = FLAT_ASSETS[name]['color']
 
-            # Find Oct 7 price or closest
+            # Find Apr 13 price or closest
             ref_candidates = df[df.index >= CRISIS_DATE]
             if ref_candidates.empty: continue
             ref_price = ref_candidates['Price'].iloc[0]
@@ -825,7 +842,7 @@ with tabs[1]:
 
         layout = CHART_LAYOUT.copy()
         layout.update(
-            title="% Change from Oct 7, 2023 (Crisis Day)",
+            title="% Change from Apr 13, 2024 — Iran Strike Day",
             height=520,
             yaxis_title="% Return vs Crisis Day",
             xaxis_title="Date"
@@ -855,10 +872,15 @@ with tabs[1]:
 
     if labels:
         fig2 = go.Figure()
+        def hex_to_rgba(h, a=0.6):
+            h = h.lstrip('#')
+            r,g,b = int(h[0:2],16), int(h[2:4],16), int(h[4:6],16)
+            return f'rgba({r},{g},{b},{a})'
+
         fig2.add_trace(go.Bar(
             name='Pre-Crisis (~2 months)',
             x=labels, y=pre_rets,
-            marker_color=[c + '99' for c in colors_list],
+            marker_color=[hex_to_rgba(c, 0.55) for c in colors_list],
             marker_line_color=colors_list,
             marker_line_width=2,
         ))
@@ -874,7 +896,7 @@ with tabs[1]:
         layout2 = CHART_LAYOUT.copy()
         layout2.update(
             barmode='group',
-            title="Cumulative % Return: 2 Months Before vs 2 Months After Oct 7 Crisis",
+            title="Cumulative % Return: 2 Months Before vs 2 Months After Apr 13 Iran Strike",
             height=420,
             yaxis_title="% Return",
             xaxis_tickangle=-30
@@ -1100,12 +1122,12 @@ with tabs[4]:
         return fig
 
     with col1:
-        fig_pre = plot_corr(pre_corr, "Pre-Crisis Correlations (Aug–Oct 6, 2023)",
+        fig_pre = plot_corr(pre_corr, "Pre-Strike Correlations (Feb 13 – Apr 12, 2024)",
                             [[0,'#dc3545'],[0.5,'#1a2332'],[1,'#28a745']])
         st.plotly_chart(fig_pre, use_container_width=True)
 
     with col2:
-        fig_post = plot_corr(post_corr, "Post-Crisis Correlations (Oct 7 – Dec, 2023)",
+        fig_post = plot_corr(post_corr, "Post-Strike Correlations (Apr 13 – Jun 13, 2024)",
                              [[0,'#dc3545'],[0.5,'#1a2332'],[1,'#28a745']])
         st.plotly_chart(fig_post, use_container_width=True)
 
@@ -1114,7 +1136,7 @@ with tabs[4]:
         common = list(set(pre_corr.columns) & set(post_corr.columns))
         if common:
             diff = post_corr.loc[common, common] - pre_corr.loc[common, common]
-            fig_diff = plot_corr(diff, "Correlation Change (Post − Pre): Regime Shift",
+            fig_diff = plot_corr(diff, "Correlation Regime Shift: Pre vs Post Iran Strike (Apr 13, 2024)",
                                  [[0,'#dc3545'],[0.5,'#1a2332'],[1,'#28a745']])
             st.plotly_chart(fig_diff, use_container_width=True)
             st.caption("🔴 Red = correlation increased | 🟢 Green = correlation decreased | White = no change")
@@ -1191,13 +1213,13 @@ with tabs[5]:
         st.download_button(
             "⬇ Download Summary as CSV",
             data=csv,
-            file_name="middle_east_crisis_market_analysis.csv",
+            file_name="iran_israel_war_market_analysis.csv",
             mime="text/csv"
         )
 
     # Key Findings
     st.markdown("---")
-    st.markdown("#### 📝 Key Research Findings")
+    st.markdown("#### 📝 Key Findings: Iran–Israel War Market Impact")
 
     findings = []
     for name in available:
