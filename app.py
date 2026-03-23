@@ -387,27 +387,58 @@ div[data-testid="stMetricValue"] {
 
 /* ── TABS ── */
 .stTabs [data-baseweb="tab-list"] {
-    background: #003366;
-    border-radius: 8px;
-    padding: 4px;
-    gap: 4px;
+    background: linear-gradient(135deg, #003366 0%, #004d80 100%) !important;
+    border-radius: 10px !important;
+    padding: 6px !important;
+    gap: 4px !important;
+    border: 1px solid rgba(255,215,0,0.15) !important;
+    flex-wrap: wrap !important;
+}
+.stTabs [data-baseweb="tab"] {
+    background: rgba(255,255,255,0.04) !important;
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+    border-radius: 7px !important;
+    font-family: 'Source Sans 3', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    padding: 0.55rem 1.1rem !important;
+    border: 1px solid rgba(173,216,230,0.15) !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    min-height: 42px !important;
 }
 .stTabs [data-baseweb="tab"] p,
-.stTabs [data-baseweb="tab"] span,
-.stTabs [data-baseweb="tab"] {
-    background: transparent;
-    color: #ADD8E6 !important;
-    -webkit-text-fill-color: #ADD8E6 !important;
-    border-radius: 6px;
-    font-family: 'Source Sans 3', sans-serif;
-    font-weight: 600;
+.stTabs [data-baseweb="tab"] span {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
 }
-.stTabs [aria-selected="true"],
-.stTabs [aria-selected="true"] p,
-.stTabs [aria-selected="true"] span {
-    background: rgba(255,215,0,0.15) !important;
+.stTabs [data-baseweb="tab"]:hover {
+    background: rgba(255,215,0,0.1) !important;
+    border-color: rgba(255,215,0,0.35) !important;
     color: #FFD700 !important;
     -webkit-text-fill-color: #FFD700 !important;
+}
+.stTabs [data-baseweb="tab"]:hover p,
+.stTabs [data-baseweb="tab"]:hover span {
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+}
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, rgba(255,215,0,0.2) 0%, rgba(255,183,0,0.12) 100%) !important;
+    border: 1.5px solid rgba(255,215,0,0.55) !important;
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    box-shadow: 0 2px 10px rgba(255,215,0,0.15) !important;
+}
+.stTabs [aria-selected="true"] p,
+.stTabs [aria-selected="true"] span {
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
 }
 
 /* ── SELECTS ── */
