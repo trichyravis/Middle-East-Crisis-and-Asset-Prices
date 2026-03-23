@@ -1,3 +1,4 @@
+
 """
 Middle East Crisis Market Impact Analyzer
 Prof. V. Ravichandran | The Mountain Path - World of Finance
@@ -358,10 +359,12 @@ CHART_LAYOUT = dict(
     margin=dict(l=60, r=30, t=50, b=50)
 )
 
+CRISIS_DATE_STR = CRISIS_DATE.strftime("%Y-%m-%d")
+
 def add_crisis_line(fig, row=None, col=None):
     kwargs = dict(row=row, col=col) if row else {}
     fig.add_vline(
-        x=CRISIS_DATE,
+        x=CRISIS_DATE_STR,
         line=dict(color='rgba(255,71,87,0.8)', width=2, dash='dash'),
         annotation_text="⚔ Oct 7 Crisis",
         annotation_font_color="#ff6b6b",
@@ -372,26 +375,27 @@ def add_crisis_line(fig, row=None, col=None):
 
 # ─── SIDEBAR ────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.html("""
-    <div style='text-align:center; padding:1rem 0;'>
-        <div style='font-family:Playfair Display,serif; font-size:1.3rem; color:#FFD700; font-weight:700;'>
+    st.markdown("""
+    <div style='text-align:center; padding:1rem 0; user-select:none;'>
+        <div style='font-family:Playfair Display,serif; font-size:1.3rem; color:#FFD700; -webkit-text-fill-color:#FFD700; font-weight:700;'>
             The Mountain Path
         </div>
-        <div style='font-size:0.75rem; color:#8892b0; margin-top:4px;'>World of Finance</div>
+        <div style='font-size:0.75rem; color:#8892b0; -webkit-text-fill-color:#8892b0; margin-top:4px;'>World of Finance</div>
     </div>
     <hr>
-    """)
+    """, unsafe_allow_html=True)
 
-    st.html("#### 🗓 Crisis Event")
+    st.markdown("#### 🗓 Crisis Event")
     st.markdown("""
-    <div class='crisis-badge'>
-        <strong>Oct 7, 2023</strong><br>
-        Hamas Attack on Israel<br>
-        <span style='font-size:0.8rem;color:#a0aec0;'>Start of Middle East Crisis</span>
+    <div style='background:rgba(255,71,87,0.1); border:1px solid rgba(255,71,87,0.3); border-radius:8px;
+                padding:0.8rem 1.2rem; margin:0.5rem 0; user-select:none;'>
+        <span style='color:#ff6b6b; -webkit-text-fill-color:#ff6b6b; font-weight:700;'>Oct 7, 2023</span><br>
+        <span style='color:#ff6b6b; -webkit-text-fill-color:#ff6b6b;'>Hamas Attack on Israel</span><br>
+        <span style='font-size:0.8rem; color:#a0aec0; -webkit-text-fill-color:#a0aec0;'>Start of Middle East Crisis</span>
     </div>
-    """)
+    """, unsafe_allow_html=True)
 
-    st.html("#### 📦 Select Assets")
+    st.markdown("#### 📦 Select Assets")
     selected = []
     for group, items in ASSETS.items():
         st.markdown(f"**{group}**")
@@ -411,14 +415,17 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("""
-    <div style='font-size:0.75rem; color:#667eea; text-align:center;'>
+    <div style='font-size:0.75rem; color:#667eea; -webkit-text-fill-color:#667eea; text-align:center; user-select:none;'>
         Prof. V. Ravichandran<br>
-        28+ Yrs Corporate Finance & Banking<br>
+        28+ Yrs Corporate Finance &amp; Banking<br>
         10+ Yrs Academic Excellence<br><br>
-        <a href='https://themountainpathacademy.com' style='color:#FFD700;'>
-        🌐 themountainpathacademy.com</a>
+        <a href='https://themountainpathacademy.com' style='color:#FFD700; -webkit-text-fill-color:#FFD700;'>
+        🌐 themountainpathacademy.com</a><br><br>
+        <a href='https://www.linkedin.com/in/trichyravis' style='color:#FFD700; -webkit-text-fill-color:#FFD700;'>LinkedIn</a>
+        &nbsp;|&nbsp;
+        <a href='https://github.com/trichyravis' style='color:#FFD700; -webkit-text-fill-color:#FFD700;'>GitHub</a>
     </div>
-    """)
+    """, unsafe_allow_html=True)
 
 
 # ─── HERO HEADER ─────────────────────────────────────────────────────────────────
@@ -619,7 +626,7 @@ with tabs[1]:
         st.plotly_chart(fig, use_container_width=True)
 
     # Cumulative return bar
-    st.html("#### 📊 Cumulative Return Comparison: Pre vs Post Crisis")
+    st.markdown("#### 📊 Cumulative Return Comparison: Pre vs Post Crisis")
     pre_rets  = []
     post_rets = []
     labels    = []
@@ -672,7 +679,7 @@ with tabs[1]:
 # TAB 3: PRE vs POST ANALYSIS
 # ════════════════════════════════════════════════════════════════════════════════
 with tabs[2]:
-    st.markdown("<div class='section-header'>Pre vs Post Crisis – Detailed Comparison</div>")
+    st.markdown("<div class='section-header'>Pre vs Post Crisis – Detailed Comparison</div>", unsafe_allow_html=True)
 
     for name in available:
         df = trimmed[name]
@@ -746,7 +753,7 @@ with tabs[3]:
 
     # Rolling Volatility
     with c1:
-        st.html("#### 30-Day Rolling Volatility (Annualized)")
+        st.markdown("#### 30-Day Rolling Volatility (Annualized)")
         fig = go.Figure()
         for name in available:
             df = trimmed[name]
@@ -837,7 +844,7 @@ with tabs[3]:
 # TAB 5: CORRELATION MATRIX
 # ════════════════════════════════════════════════════════════════════════════════
 with tabs[4]:
-    st.markdown("<div class='section-header'>Cross-Asset Correlation: Pre vs Post Crisis</div>")
+    st.markdown("<div class='section-header'>Cross-Asset Correlation: Pre vs Post Crisis</div>", unsafe_allow_html=True)
 
     def build_corr(data_dict, names, crisis, period='pre'):
         price_df = pd.DataFrame()
@@ -981,7 +988,7 @@ with tabs[5]:
         )
 
     # Key Findings
-    st.html("---")
+    st.markdown("---")
     st.markdown("#### 📝 Key Research Findings")
 
     findings = []
