@@ -1,3 +1,4 @@
+
 """
 2026 Iran War – US-Israel Operation Epic Fury Market Impact Analyzer
 Prof. V. Ravichandran | The Mountain Path - World of Finance
@@ -1265,4 +1266,4 @@ with tabs[5]:
         <br><br>
         <em>Data sourced from Yahoo Finance via yfinance. For educational purposes only. Not financial advice.</em>
     </div>
-    """)
+    """, unsafe_allow_html=True)
