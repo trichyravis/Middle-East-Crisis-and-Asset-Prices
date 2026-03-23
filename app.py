@@ -39,11 +39,12 @@ ASSETS = {
         "Natural Gas":        {"ticker": "NG=F",  "color": "#55EFC4", "category": "commodity"},
         "XLE (Energy ETF)":   {"ticker": "XLE",   "color": "#00B894", "category": "etf"},
     },
-    "🪙 Safe Haven Assets": {
-        "Gold":               {"ticker": "GC=F",  "color": "#FFD700", "category": "commodity"},
-        "Silver":             {"ticker": "SI=F",  "color": "#C0C0C0", "category": "commodity"},
-        "US 10Y Treasury":    {"ticker": "^TNX",  "color": "#74B9FF", "category": "bond"},
-        "DXY (USD Index)":    {"ticker": "DX-Y.NYB","color": "#A29BFE","category": "currency"},
+    "🪙 Safe Haven & Currencies": {
+        "Gold":               {"ticker": "GC=F",    "color": "#FFD700", "category": "commodity"},
+        "Silver":             {"ticker": "SI=F",    "color": "#C0C0C0", "category": "commodity"},
+        "US 10Y Treasury":    {"ticker": "^TNX",    "color": "#74B9FF", "category": "bond"},
+        "DXY (USD Index)":    {"ticker": "DX-Y.NYB","color": "#A29BFE", "category": "currency"},
+        "USD/INR":            {"ticker": "INR=X",   "color": "#FF6B9D", "category": "currency"},
     },
     "📈 US Markets": {
         "S&P 500":            {"ticker": "^GSPC", "color": "#00D4FF", "category": "index"},
@@ -616,7 +617,7 @@ with st.sidebar:
                 "Crude Oil (WTI)", "Brent Crude", "Gold",
                 "S&P 500", "VIX (Fear Index)",
                 "ITA (Defense ETF)", "LMT (Lockheed)", "RTX (Raytheon)",
-                "US 10Y Treasury", "DXY (USD Index)"
+                "US 10Y Treasury", "DXY (USD Index)", "USD/INR"
             ], key=f"cb_{name}"):
                 selected.append(name)
 
@@ -677,7 +678,7 @@ st.markdown("""
 <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-size:0.85rem;'>
 US &amp; Israel struck Iran on <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>Feb 28, 2026</strong>.
 Strait of Hormuz closed. Brent crude surged past <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>$100/bbl</strong>.
-Gold, Defense ETFs &amp; DXY spiked. Global equity markets fell sharply.
+Gold, Defense ETFs &amp; DXY spiked. INR depreciated on risk-off flows. Global equity markets fell sharply.
 This tool compares market behaviour <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>2 months before</strong> vs
 <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>post-war</strong> across 20 assets in real time.
 </span>
@@ -748,6 +749,20 @@ tabs = st.tabs([
 with tabs[0]:
     st.html("<div class='section-header'>Raw Price Trajectories</div>")
     st.markdown(f"*Analysis window: {PRE_START.strftime('%d %b %Y')} → {POST_END.strftime('%d %b %Y')} | Crisis: Feb 28, 2026 (Op. Epic Fury)*")
+
+    # USD/INR spotlight note
+    if "USD/INR" in available:
+        st.markdown("""
+        <div style='background:rgba(255,107,157,0.08);border:1px solid rgba(255,107,157,0.3);
+                    border-left:3px solid #FF6B9D;border-radius:6px;padding:0.6rem 1.1rem;
+                    margin-bottom:0.5rem;font-size:0.82rem;'>
+        <span style='color:#FF6B9D;-webkit-text-fill-color:#FF6B9D;font-weight:700;'>🇮🇳 USD/INR Watch</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'>
+        &nbsp;— A rising USD/INR means INR depreciation (more rupees per dollar).
+        During geopolitical crises, risk-off flows strengthen USD and weaken EM currencies like INR.
+        Compare the pre-war vs post-war slope to measure the rupee's stress response.
+        </span>
+        </div>""", unsafe_allow_html=True)
 
     # KPI Row
     st.html("<div class='kpi-row'>")
@@ -1370,7 +1385,7 @@ giving students and practitioners a quantitative framework to understand <em>geo
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Data Source</td><td>Yahoo Finance via yfinance (live, 1-hr cache)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Charting</td><td>Plotly (interactive, dark-themed)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Statistics</td><td>SciPy — Welch t-test, return distributions</td></tr>
-<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Assets Covered</td><td>20 instruments across 5 categories</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Assets Covered</td><td>21 instruments across 5 categories (incl. USD/INR)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Crisis Date</td><td>Feb 28, 2026 (Operation Epic Fury)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Analysis Window</td><td>Dec 28, 2025 → Mar 22, 2026</td></tr>
 </table>
