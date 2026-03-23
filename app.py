@@ -218,49 +218,221 @@ html, body, [class*="css"] {
     user-select: none;
 }
 
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #003366 0%, #1a2332 100%);
+/* ── SIDEBAR: background ── */
+section[data-testid="stSidebar"],
+section[data-testid="stSidebar"] > div,
+section[data-testid="stSidebar"] > div:first-child {
+    background: linear-gradient(180deg, #003366 0%, #1a2332 100%) !important;
     border-right: 1px solid rgba(0,77,128,0.3);
 }
 section[data-testid="stSidebar"] .block-container {
     padding: 1rem;
 }
 
-/* Streamlit overrides */
-.stSelectbox > div > div {
-    background: #003366;
-    border-color: rgba(0,77,128,0.5);
+/* ── SIDEBAR: ALL text — force light colour ── */
+section[data-testid="stSidebar"] *,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] div,
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] h4,
+section[data-testid="stSidebar"] h5,
+section[data-testid="stSidebar"] h6,
+section[data-testid="stSidebar"] strong,
+section[data-testid="stSidebar"] small {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── SIDEBAR: headings → gold ── */
+section[data-testid="stSidebar"] h4,
+section[data-testid="stSidebar"] h3 {
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    font-weight: 700 !important;
+}
+
+/* ── SIDEBAR: bold text → light blue ── */
+section[data-testid="stSidebar"] strong {
+    color: #ADD8E6 !important;
+    -webkit-text-fill-color: #ADD8E6 !important;
+}
+
+/* ── SIDEBAR: checkbox labels ── */
+section[data-testid="stSidebar"] [data-testid="stCheckbox"] label,
+section[data-testid="stSidebar"] [data-testid="stCheckbox"] span,
+section[data-testid="stSidebar"] [data-testid="stCheckbox"] p {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+    font-size: 0.9rem !important;
+}
+
+/* ── SIDEBAR: checkbox tick border ── */
+section[data-testid="stSidebar"] [data-baseweb="checkbox"] div {
+    border-color: #FFD700 !important;
+}
+
+/* ── SIDEBAR: links → gold ── */
+section[data-testid="stSidebar"] a {
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    text-decoration: none !important;
+}
+section[data-testid="stSidebar"] a:hover {
+    color: #ffe566 !important;
+    -webkit-text-fill-color: #ffe566 !important;
+    text-decoration: underline !important;
+}
+
+/* ── SIDEBAR: stMarkdown and widget label text ── */
+section[data-testid="stSidebar"] .stMarkdown p,
+section[data-testid="stSidebar"] .stMarkdown span,
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p,
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] span {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── SIDEBAR: hr ── */
+section[data-testid="stSidebar"] hr {
+    border-color: rgba(255,215,0,0.25) !important;
+}
+
+/* ── MAIN AREA: global text ── */
+.stApp, .stApp * {
     color: #e6f1ff;
 }
-.stMultiSelect > div > div {
-    background: #003366;
-    border-color: rgba(0,77,128,0.5);
+.stApp p, .stApp span, .stApp li, .stApp td, .stApp th {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+.stMarkdown p, .stMarkdown span, .stMarkdown li {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── MAIN AREA: widget labels ── */
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] span,
+[data-testid="stWidgetLabel"] label {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── MAIN AREA: checkboxes ── */
+[data-testid="stCheckbox"] label,
+[data-testid="stCheckbox"] span {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── MAIN AREA: expander text ── */
+[data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+    font-weight: 600 !important;
+}
+[data-testid="stExpander"] {
+    background: #112240 !important;
+    border: 1px solid rgba(0,77,128,0.4) !important;
+    border-radius: 8px !important;
+}
+
+/* ── MAIN AREA: metric labels ── */
+[data-testid="stMetricLabel"] p,
+[data-testid="stMetricLabel"] span {
+    color: #8892b0 !important;
+    -webkit-text-fill-color: #8892b0 !important;
+}
+[data-testid="stMetricDelta"] p,
+[data-testid="stMetricDelta"] span {
+    color: #8892b0 !important;
+    -webkit-text-fill-color: #8892b0 !important;
 }
 div[data-testid="stMetricValue"] {
     font-family: 'JetBrains Mono', monospace !important;
     color: #FFD700 !important;
     -webkit-text-fill-color: #FFD700 !important;
 }
+
+/* ── MAIN AREA: info/warning/error boxes ── */
+[data-testid="stInfo"],
+[data-testid="stWarning"],
+[data-testid="stError"],
+[data-testid="stSuccess"] {
+    color: #e6f1ff !important;
+}
+[data-testid="stInfo"] p, [data-testid="stInfo"] span,
+[data-testid="stWarning"] p, [data-testid="stWarning"] span,
+[data-testid="stError"] p, [data-testid="stError"] span,
+[data-testid="stSuccess"] p, [data-testid="stSuccess"] span {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── TABS ── */
 .stTabs [data-baseweb="tab-list"] {
     background: #003366;
     border-radius: 8px;
     padding: 4px;
     gap: 4px;
 }
+.stTabs [data-baseweb="tab"] p,
+.stTabs [data-baseweb="tab"] span,
 .stTabs [data-baseweb="tab"] {
     background: transparent;
-    color: #8892b0;
+    color: #ADD8E6 !important;
+    -webkit-text-fill-color: #ADD8E6 !important;
     border-radius: 6px;
     font-family: 'Source Sans 3', sans-serif;
     font-weight: 600;
 }
-.stTabs [aria-selected="true"] {
+.stTabs [aria-selected="true"],
+.stTabs [aria-selected="true"] p,
+.stTabs [aria-selected="true"] span {
     background: rgba(255,215,0,0.15) !important;
     color: #FFD700 !important;
     -webkit-text-fill-color: #FFD700 !important;
 }
-hr { border-color: rgba(255,215,0,0.15); }
+
+/* ── SELECTS ── */
+.stSelectbox > div > div,
+.stMultiSelect > div > div {
+    background: #003366 !important;
+    border-color: rgba(0,77,128,0.5) !important;
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── DATAFRAME ── */
+[data-testid="stDataFrame"] th {
+    background: #003366 !important;
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+}
+[data-testid="stDataFrame"] td {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
+
+/* ── DOWNLOAD BUTTON ── */
+[data-testid="stDownloadButton"] button {
+    background: #003366 !important;
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    border: 1px solid rgba(255,215,0,0.4) !important;
+    font-weight: 600 !important;
+}
+[data-testid="stDownloadButton"] button:hover {
+    background: #004d80 !important;
+    border-color: #FFD700 !important;
+}
+
+hr { border-color: rgba(255,215,0,0.15) !important; }
 </style>
 """)
 
