@@ -1,18 +1,5 @@
-import gspread
-from google.oauth2.service_account import Credentials
-from datetime import datetime
-
-def log_visit():
-    creds = Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"],
-        scopes=["https://www.googleapis.com/auth/spreadsheets"]
-    )
-    client = gspread.authorize(creds)
-    sheet = client.open("StreamlitVisitors").sheet1
-    sheet.append_row([datetime.now().isoformat(), "visit"])
-
-log_visit()
 """
+
 2026 Iran War – US-Israel Operation Epic Fury Market Impact Analyzer
 Prof. V. Ravichandran | The Mountain Path - World of Finance
 Analyzes Crude Oil, Gold, Silver & Major Stock Indices
