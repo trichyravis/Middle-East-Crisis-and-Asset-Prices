@@ -1,8 +1,8 @@
 """
-Iran–Israel War Market Impact Analyzer
+2026 Iran War – US-Israel Operation Epic Fury Market Impact Analyzer
 Prof. V. Ravichandran | The Mountain Path - World of Finance
 Analyzes Crude Oil, Gold, Silver & Major Stock Indices
-Crisis Event: April 13, 2024 – Iran Direct Missile & Drone Attack on Israel
+Crisis Event: February 28, 2026 – US-Israel Joint Strikes on Iran (Operation Epic Fury)
 """
 
 import streamlit as st
@@ -19,48 +19,48 @@ warnings.filterwarnings('ignore')
 
 # ─── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Iran–Israel War – Market Impact Analyzer",
+    page_title="2026 Iran War – Market Impact Analyzer",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # ─── CRISIS EVENT ───────────────────────────────────────────────────────────────
-CRISIS_DATE = datetime(2024, 4, 13)
-PRE_START   = CRISIS_DATE - timedelta(days=60)   # 2 months before
-POST_END    = CRISIS_DATE + timedelta(days=60)    # 2 months after
+CRISIS_DATE = datetime(2026, 2, 28)
+PRE_START   = CRISIS_DATE - timedelta(days=62)   # ~2 months before (Dec 28, 2025)
+POST_END    = datetime(2026, 3, 22)              # up to Mar 22 2026 (live data)
 
 # ─── ASSET UNIVERSE ─────────────────────────────────────────────────────────────
 ASSETS = {
-    "🛢 Commodities": {
-        "Crude Oil (WTI)":  {"ticker": "CL=F",  "color": "#FF6B35", "category": "commodity"},
-        "Brent Crude":      {"ticker": "BZ=F",  "color": "#FF9500", "category": "commodity"},
-        "Gold":             {"ticker": "GC=F",  "color": "#FFD700", "category": "commodity"},
-        "Silver":           {"ticker": "SI=F",  "color": "#C0C0C0", "category": "commodity"},
-    },
-    "📈 US Indices": {
-        "S&P 500":          {"ticker": "^GSPC", "color": "#00D4FF", "category": "index"},
-        "NASDAQ 100":       {"ticker": "^NDX",  "color": "#4ECDC4", "category": "index"},
-        "Dow Jones":        {"ticker": "^DJI",  "color": "#45B7D1", "category": "index"},
-        "VIX (Fear Index)": {"ticker": "^VIX",  "color": "#FF4757", "category": "volatility"},
-    },
-    "🌍 Global Indices": {
-        "FTSE 100 (UK)":    {"ticker": "^FTSE", "color": "#6C63FF", "category": "index"},
-        "DAX (Germany)":    {"ticker": "^GDAXI","color": "#A29BFE", "category": "index"},
-        "Nikkei 225":       {"ticker": "^N225", "color": "#FD79A8", "category": "index"},
-        "Nifty 50 (India)": {"ticker": "^NSEI", "color": "#FFEAA7", "category": "index"},
-    },
-    "⚡ Energy, Defense & Safe Haven": {
+    "🛢 Energy & Commodities": {
+        "Crude Oil (WTI)":    {"ticker": "CL=F",  "color": "#FF6B35", "category": "commodity"},
+        "Brent Crude":        {"ticker": "BZ=F",  "color": "#FF9500", "category": "commodity"},
         "Natural Gas":        {"ticker": "NG=F",  "color": "#55EFC4", "category": "commodity"},
         "XLE (Energy ETF)":   {"ticker": "XLE",   "color": "#00B894", "category": "etf"},
-        "ITA (Defense ETF)":  {"ticker": "ITA",   "color": "#E17055", "category": "etf"},
-        "USO (Oil ETF)":      {"ticker": "USO",   "color": "#FDCB6E", "category": "etf"},
     },
-    "🛡 Geopolitical Proxies": {
+    "🪙 Safe Haven Assets": {
+        "Gold":               {"ticker": "GC=F",  "color": "#FFD700", "category": "commodity"},
+        "Silver":             {"ticker": "SI=F",  "color": "#C0C0C0", "category": "commodity"},
         "US 10Y Treasury":    {"ticker": "^TNX",  "color": "#74B9FF", "category": "bond"},
         "DXY (USD Index)":    {"ticker": "DX-Y.NYB","color": "#A29BFE","category": "currency"},
-        "Israeli ETF (EIS)":  {"ticker": "EIS",   "color": "#55EFC4", "category": "etf"},
+    },
+    "📈 US Markets": {
+        "S&P 500":            {"ticker": "^GSPC", "color": "#00D4FF", "category": "index"},
+        "NASDAQ 100":         {"ticker": "^NDX",  "color": "#4ECDC4", "category": "index"},
+        "Dow Jones":          {"ticker": "^DJI",  "color": "#45B7D1", "category": "index"},
+        "VIX (Fear Index)":   {"ticker": "^VIX",  "color": "#FF4757", "category": "volatility"},
+    },
+    "🌍 Global Indices": {
+        "FTSE 100 (UK)":      {"ticker": "^FTSE", "color": "#6C63FF", "category": "index"},
+        "DAX (Germany)":      {"ticker": "^GDAXI","color": "#A29BFE", "category": "index"},
+        "Nikkei 225 (Japan)": {"ticker": "^N225", "color": "#FD79A8", "category": "index"},
+        "Nifty 50 (India)":   {"ticker": "^NSEI", "color": "#FFEAA7", "category": "index"},
+    },
+    "🛡 War & Geopolitical Proxies": {
+        "ITA (Defense ETF)":  {"ticker": "ITA",   "color": "#E17055", "category": "etf"},
         "LMT (Lockheed)":     {"ticker": "LMT",   "color": "#FD79A8", "category": "stock"},
+        "RTX (Raytheon)":     {"ticker": "RTX",   "color": "#FDCB6E", "category": "stock"},
+        "Israeli ETF (EIS)":  {"ticker": "EIS",   "color": "#55EFC4", "category": "etf"},
     }
 }
 
@@ -559,7 +559,7 @@ def add_crisis_line(fig, row=None, col=None):
         x=CRISIS_DATE_STR,
         y=1.0,
         xref="x", yref="paper",
-        text="🚀 Apr 13 Iran Strike",
+        text="💥 Feb 28 Op.Epic Fury",
         showarrow=False,
         font=dict(color="#ff6b6b", size=11),
         xanchor="left",
@@ -588,17 +588,21 @@ with st.sidebar:
     <div style='background:rgba(255,71,87,0.08); border:1px solid rgba(255,71,87,0.35); border-radius:8px;
                 padding:0.9rem 1.2rem; margin:0.5rem 0; user-select:none; line-height:1.7;'>
         <div style='color:#FFD700;-webkit-text-fill-color:#FFD700;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;'>Escalation Timeline</div>
-        <div style='font-size:0.8rem;'>
-        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Apr 1 2024</span>
-        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Israel strikes Iranian consulate, Damascus</span><br>
-        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Apr 13 2024</span>
-        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Iran fires 300+ drones &amp; missiles at Israel ★</span><br>
-        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Apr 19 2024</span>
-        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Israel retaliatory strike on Isfahan</span><br>
-        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Oct 1 2024</span>
-        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Iran ballistic missile barrage (2nd wave)</span>
+        <div style='font-size:0.79rem;'>
+        <span style='color:#ff9966;-webkit-text-fill-color:#ff9966;font-weight:700;'>Jun 13 2025</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — 12-Day War: Israel strikes Iran nuclear sites</span><br>
+        <span style='color:#ff9966;-webkit-text-fill-color:#ff9966;font-weight:700;'>Dec 28 2025</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Mass protests erupt across Iran</span><br>
+        <span style='color:#ff9966;-webkit-text-fill-color:#ff9966;font-weight:700;'>Feb 6 2026</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — US-Iran nuclear talks begin in Geneva</span><br>
+        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'>Feb 28 2026</span>
+        <span style='color:#ff6b6b;-webkit-text-fill-color:#ff6b6b;font-weight:700;'> — Op. Epic Fury: US+Israel strike Iran ★</span><br>
+        <span style='color:#ff9966;-webkit-text-fill-color:#ff9966;font-weight:700;'>Mar 1 2026</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Iran retaliates: 500+ missiles &amp; drones</span><br>
+        <span style='color:#ff9966;-webkit-text-fill-color:#ff9966;font-weight:700;'>Mar 2026</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'> — Strait of Hormuz closed, Brent &gt;$100</span>
         </div>
-        <div style='font-size:0.72rem;color:#8892b0;-webkit-text-fill-color:#8892b0;margin-top:6px;'>★ = Reference crisis date (Apr 13, 2024)</div>
+        <div style='font-size:0.72rem;color:#8892b0;-webkit-text-fill-color:#8892b0;margin-top:6px;'>★ = Reference crisis date (Feb 28, 2026)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -608,16 +612,17 @@ with st.sidebar:
         st.markdown(f"**{group}**")
         for name in items:
             if st.checkbox(name, value=name in [
-                "Crude Oil (WTI)", "Gold", "Silver", "S&P 500",
-                "VIX (Fear Index)", "ITA (Defense ETF)", "LMT (Lockheed)",
-                "Israeli ETF (EIS)", "DXY (USD Index)"
+                "Crude Oil (WTI)", "Brent Crude", "Gold",
+                "S&P 500", "VIX (Fear Index)",
+                "ITA (Defense ETF)", "LMT (Lockheed)", "RTX (Raytheon)",
+                "US 10Y Treasury", "DXY (USD Index)"
             ], key=f"cb_{name}"):
                 selected.append(name)
 
     st.markdown("---")
     st.markdown("#### ⚙ Chart Options")
     normalize = st.checkbox("Normalize to Crisis Date", value=True,
-                            help="Show % change from Apr 13, 2024 (crisis day) for comparison")
+                            help="Show % change from Feb 28, 2026 — Operation Epic Fury launch day")
     show_vol  = st.checkbox("Show Volatility Band", value=False)
     log_scale = st.checkbox("Log Y-Axis", value=False)
 
@@ -639,9 +644,9 @@ with st.sidebar:
 # ─── HERO HEADER ─────────────────────────────────────────────────────────────────
 st.html("""
 <div class='hero-header'>
-    <div class='hero-title'>Iran–Israel War – Market Impact Analyzer</div>
-    <div class='hero-subtitle'>Crude Oil · Gold · Silver · Global Equity Indices · Defense ETFs · Safe-Haven Assets</div>
-    <div class='hero-crisis'>🚀 Event: Iran Direct Missile &amp; Drone Strike on Israel — April 13, 2024</div>
+    <div class='hero-title'>2026 Iran War – Operation Epic Fury: Market Impact Analyzer</div>
+    <div class='hero-subtitle'>Crude Oil · Gold · Silver · Strait of Hormuz Risk · Defense Stocks · Safe-Haven Flight</div>
+    <div class='hero-crisis'>💥 Feb 28, 2026 — US &amp; Israel launch Operation Epic Fury on Iran | Strait of Hormuz Closed</div>
     <div class='hero-brand'>
         The Mountain Path – World of Finance &nbsp;|&nbsp; Prof. V. Ravichandran
         &nbsp;|&nbsp; <a href='https://themountainpathacademy.com' style='color:#FFD700;'>themountainpathacademy.com</a>
@@ -688,7 +693,7 @@ tabs = st.tabs([
 # ════════════════════════════════════════════════════════════════════════════════
 with tabs[0]:
     st.html("<div class='section-header'>Raw Price Trajectories</div>")
-    st.markdown(f"*Analysis window: {PRE_START.strftime('%d %b %Y')} → {POST_END.strftime('%d %b %Y')} | Crisis: Apr 13, 2024*")
+    st.markdown(f"*Analysis window: {PRE_START.strftime('%d %b %Y')} → {POST_END.strftime('%d %b %Y')} | Crisis: Feb 28, 2026 (Op. Epic Fury)*")
 
     # KPI Row
     st.html("<div class='kpi-row'>")
@@ -783,7 +788,7 @@ with tabs[0]:
 # TAB 2: NORMALIZED RETURNS
 # ════════════════════════════════════════════════════════════════════════════════
 with tabs[1]:
-    st.html("<div class='section-header'>Normalized Returns – All Assets (Indexed to Apr 13, 2024 = 0%)</div>")
+    st.html("<div class='section-header'>Normalized Returns – All Assets (Indexed to Feb 28, 2026 = 0%)</div>")
 
     if normalize:
         fig = go.Figure()
@@ -792,7 +797,7 @@ with tabs[1]:
             if df.empty: continue
             color = FLAT_ASSETS[name]['color']
 
-            # Find Apr 13 price or closest
+            # Find Feb 28 2026 price or closest
             ref_candidates = df[df.index >= CRISIS_DATE]
             if ref_candidates.empty: continue
             ref_price = ref_candidates['Price'].iloc[0]
@@ -842,7 +847,7 @@ with tabs[1]:
 
         layout = CHART_LAYOUT.copy()
         layout.update(
-            title="% Change from Apr 13, 2024 — Iran Strike Day",
+            title="% Change from Feb 28, 2026 — Operation Epic Fury Launch Day",
             height=520,
             yaxis_title="% Return vs Crisis Day",
             xaxis_title="Date"
@@ -896,7 +901,7 @@ with tabs[1]:
         layout2 = CHART_LAYOUT.copy()
         layout2.update(
             barmode='group',
-            title="Cumulative % Return: 2 Months Before vs 2 Months After Apr 13 Iran Strike",
+            title="Cumulative % Return: 2 Months Before vs Post-Feb 28, 2026 US-Israel Strikes on Iran",
             height=420,
             yaxis_title="% Return",
             xaxis_tickangle=-30
@@ -1122,12 +1127,12 @@ with tabs[4]:
         return fig
 
     with col1:
-        fig_pre = plot_corr(pre_corr, "Pre-Strike Correlations (Feb 13 – Apr 12, 2024)",
+        fig_pre = plot_corr(pre_corr, "Pre-War Correlations (Dec 28, 2025 – Feb 27, 2026)",
                             [[0,'#dc3545'],[0.5,'#1a2332'],[1,'#28a745']])
         st.plotly_chart(fig_pre, use_container_width=True)
 
     with col2:
-        fig_post = plot_corr(post_corr, "Post-Strike Correlations (Apr 13 – Jun 13, 2024)",
+        fig_post = plot_corr(post_corr, "Post-War Correlations (Feb 28 – Mar 22, 2026)",
                              [[0,'#dc3545'],[0.5,'#1a2332'],[1,'#28a745']])
         st.plotly_chart(fig_post, use_container_width=True)
 
@@ -1136,7 +1141,7 @@ with tabs[4]:
         common = list(set(pre_corr.columns) & set(post_corr.columns))
         if common:
             diff = post_corr.loc[common, common] - pre_corr.loc[common, common]
-            fig_diff = plot_corr(diff, "Correlation Regime Shift: Pre vs Post Iran Strike (Apr 13, 2024)",
+            fig_diff = plot_corr(diff, "Correlation Regime Shift: Pre vs Post Operation Epic Fury (Feb 28, 2026)",
                                  [[0,'#dc3545'],[0.5,'#1a2332'],[1,'#28a745']])
             st.plotly_chart(fig_diff, use_container_width=True)
             st.caption("🔴 Red = correlation increased | 🟢 Green = correlation decreased | White = no change")
@@ -1213,13 +1218,13 @@ with tabs[5]:
         st.download_button(
             "⬇ Download Summary as CSV",
             data=csv,
-            file_name="iran_israel_war_market_analysis.csv",
+            file_name="2026_iran_war_operation_epic_fury_market_analysis.csv",
             mime="text/csv"
         )
 
     # Key Findings
     st.markdown("---")
-    st.markdown("#### 📝 Key Findings: Iran–Israel War Market Impact")
+    st.markdown("#### 📝 Key Findings: 2026 Iran War Market Impact")
 
     findings = []
     for name in available:
