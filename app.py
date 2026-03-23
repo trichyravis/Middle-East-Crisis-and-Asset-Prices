@@ -340,34 +340,84 @@ section[data-testid="stSidebar"] hr {
     -webkit-text-fill-color: #e6f1ff !important;
 }
 
-/* ── MAIN AREA: expander text ── */
-[data-testid="stExpander"] summary p,
-[data-testid="stExpander"] summary span {
-    color: #e6f1ff !important;
-    -webkit-text-fill-color: #e6f1ff !important;
-    font-weight: 600 !important;
-}
+/* ── MAIN AREA: expander ── */
 [data-testid="stExpander"] {
     background: #112240 !important;
     border: 1px solid rgba(0,77,128,0.4) !important;
     border-radius: 8px !important;
 }
+/* Expander header text */
+[data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] summary label,
+[data-testid="stExpander"] summary div {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+}
+/* ALL content inside expander */
+[data-testid="stExpander"] *,
+[data-testid="stExpander"] p,
+[data-testid="stExpander"] span,
+[data-testid="stExpander"] label,
+[data-testid="stExpander"] div {
+    color: #e6f1ff !important;
+    -webkit-text-fill-color: #e6f1ff !important;
+}
 
-/* ── MAIN AREA: metric labels ── */
+/* ── METRIC: label (the small text above the number) ── */
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] *,
 [data-testid="stMetricLabel"] p,
-[data-testid="stMetricLabel"] span {
-    color: #8892b0 !important;
-    -webkit-text-fill-color: #8892b0 !important;
+[data-testid="stMetricLabel"] span,
+[data-testid="stMetricLabel"] div,
+[data-testid="stExpander"] [data-testid="stMetricLabel"],
+[data-testid="stExpander"] [data-testid="stMetricLabel"] * {
+    color: #ADD8E6 !important;
+    -webkit-text-fill-color: #ADD8E6 !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
 }
-[data-testid="stMetricDelta"] p,
-[data-testid="stMetricDelta"] span {
-    color: #8892b0 !important;
-    -webkit-text-fill-color: #8892b0 !important;
-}
-div[data-testid="stMetricValue"] {
+
+/* ── METRIC: the big number ── */
+[data-testid="stMetricValue"],
+[data-testid="stMetricValue"] *,
+[data-testid="stMetricValue"] p,
+[data-testid="stMetricValue"] span,
+div[data-testid="stMetricValue"],
+[data-testid="stExpander"] [data-testid="stMetricValue"],
+[data-testid="stExpander"] [data-testid="stMetricValue"] * {
     font-family: 'JetBrains Mono', monospace !important;
     color: #FFD700 !important;
     -webkit-text-fill-color: #FFD700 !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+}
+
+/* ── METRIC: delta (the small change badge) ── */
+[data-testid="stMetricDelta"],
+[data-testid="stMetricDelta"] *,
+[data-testid="stMetricDelta"] p,
+[data-testid="stMetricDelta"] span,
+[data-testid="stExpander"] [data-testid="stMetricDelta"],
+[data-testid="stExpander"] [data-testid="stMetricDelta"] * {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+}
+/* Delta positive = green, negative = red — override Streamlit's own colouring */
+[data-testid="stMetricDelta"][data-direction="up"] *,
+[data-testid="stMetricDelta"][data-direction="up"] {
+    color: #28a745 !important;
+    -webkit-text-fill-color: #28a745 !important;
+}
+[data-testid="stMetricDelta"][data-direction="down"] *,
+[data-testid="stMetricDelta"][data-direction="down"] {
+    color: #dc3545 !important;
+    -webkit-text-fill-color: #dc3545 !important;
 }
 
 /* ── MAIN AREA: info/warning/error boxes ── */
