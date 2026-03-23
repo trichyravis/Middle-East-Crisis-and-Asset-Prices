@@ -365,11 +365,11 @@ section[data-testid="stSidebar"] hr {
 [data-testid="stExpander"] summary label,
 [data-testid="stExpander"] summary div,
 [data-testid="stExpander"] summary svg {
-    color: #FFD700 !important;
-    -webkit-text-fill-color: #FFD700 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
     font-weight: 700 !important;
     font-size: 1rem !important;
-    fill: #FFD700 !important;
+    fill: #ffffff !important;
 }
 
 /* Expanded state — keep styling consistent */
