@@ -59,10 +59,14 @@ ASSETS = {
         "Nifty 50 (India)":   {"ticker": "^NSEI", "color": "#FFEAA7", "category": "index"},
     },
     "🛡 War & Geopolitical Proxies": {
-        "ITA (Defense ETF)":  {"ticker": "ITA",   "color": "#E17055", "category": "etf"},
-        "LMT (Lockheed)":     {"ticker": "LMT",   "color": "#FD79A8", "category": "stock"},
-        "RTX (Raytheon)":     {"ticker": "RTX",   "color": "#FDCB6E", "category": "stock"},
-        "Israeli ETF (EIS)":  {"ticker": "EIS",   "color": "#55EFC4", "category": "etf"},
+        "ITA (Defense ETF)":  {"ticker": "ITA",      "color": "#E17055", "category": "etf"},
+        "LMT (Lockheed)":     {"ticker": "LMT",      "color": "#FD79A8", "category": "stock"},
+        "RTX (Raytheon)":     {"ticker": "RTX",      "color": "#FDCB6E", "category": "stock"},
+        "Israeli ETF (EIS)":  {"ticker": "EIS",      "color": "#55EFC4", "category": "etf"},
+    },
+    "₿ Crypto": {
+        "Bitcoin (BTC-USD)":  {"ticker": "BTC-USD",  "color": "#F7931A", "category": "crypto"},
+        "Ethereum (ETH-USD)": {"ticker": "ETH-USD",  "color": "#627EEA", "category": "crypto"},
     }
 }
 
@@ -649,7 +653,7 @@ with st.sidebar:
                 "Crude Oil (WTI)", "Brent Crude", "Gold",
                 "S&P 500", "VIX (Fear Index)",
                 "ITA (Defense ETF)", "LMT (Lockheed)", "RTX (Raytheon)",
-                "US 10Y Treasury", "DXY (USD Index)", "USD/INR"
+                "US 10Y Treasury", "DXY (USD Index)", "USD/INR", "Bitcoin (BTC-USD)"
             ], key=f"cb_{name}"):
                 selected.append(name)
 
@@ -710,7 +714,7 @@ st.markdown("""
 <span style='color:#e6f1ff;-webkit-text-fill-color:#e6f1ff;font-size:0.85rem;'>
 US &amp; Israel struck Iran on <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>Feb 28, 2026</strong>.
 Strait of Hormuz closed. Brent crude surged past <strong style='color:#ff9966;-webkit-text-fill-color:#ff9966;'>$100/bbl</strong>.
-Gold, Defense ETFs &amp; DXY spiked. INR depreciated on risk-off flows. Global equity markets fell sharply.
+Gold, Defense ETFs &amp; DXY spiked. INR depreciated on risk-off flows. Bitcoin tested its safe-haven narrative. Global equity markets fell sharply.
 This tool compares market behaviour <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>2 months before</strong> vs
 <strong style='color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;'>post-war</strong> across 20 assets in real time.
 </span>
@@ -793,6 +797,21 @@ with tabs[0]:
         &nbsp;— A rising USD/INR means INR depreciation (more rupees per dollar).
         During geopolitical crises, risk-off flows strengthen USD and weaken EM currencies like INR.
         Compare the pre-war vs post-war slope to measure the rupee's stress response.
+        </span>
+        </div>""", unsafe_allow_html=True)
+
+    # Bitcoin spotlight note
+    if "Bitcoin (BTC-USD)" in available:
+        st.markdown("""
+        <div style='background:rgba(247,147,26,0.08);border:1px solid rgba(247,147,26,0.3);
+                    border-left:3px solid #F7931A;border-radius:6px;padding:0.6rem 1.1rem;
+                    margin-bottom:0.5rem;font-size:0.82rem;'>
+        <span style='color:#F7931A;-webkit-text-fill-color:#F7931A;font-weight:700;'>₿ Bitcoin Watch</span>
+        <span style='color:#c8d6e5;-webkit-text-fill-color:#c8d6e5;'>
+        &nbsp;— Bitcoin trades 24×7 and reacts instantly to geopolitical shocks.
+        Watch whether BTC behaves as a <strong style='color:#FFD700;-webkit-text-fill-color:#FFD700;'>safe-haven (like Gold)</strong>
+        or a <strong style='color:#FF4757;-webkit-text-fill-color:#FF4757;'>risk asset (like equities)</strong>
+        in the pre-war vs post-war periods. Correlation with Gold vs VIX tells the story.
         </span>
         </div>""", unsafe_allow_html=True)
 
@@ -1417,7 +1436,7 @@ giving students and practitioners a quantitative framework to understand <em>geo
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Data Source</td><td>Yahoo Finance via yfinance (live, 1-hr cache)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Charting</td><td>Plotly (interactive, dark-themed)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Statistics</td><td>SciPy — Welch t-test, return distributions</td></tr>
-<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Assets Covered</td><td>21 instruments across 5 categories (incl. USD/INR)</td></tr>
+<tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Assets Covered</td><td>23 instruments across 6 categories (incl. USD/INR, BTC, ETH)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Crisis Date</td><td>Feb 28, 2026 (Operation Epic Fury)</td></tr>
 <tr><td style='padding:0.4rem 0.8rem 0.4rem 0;color:#ADD8E6;-webkit-text-fill-color:#ADD8E6;font-weight:600;'>Analysis Window</td><td>Dec 28, 2025 → Mar 22, 2026</td></tr>
 </table>
