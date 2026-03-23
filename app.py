@@ -1,5 +1,5 @@
-"""
 
+"""
 2026 Iran War – US-Israel Operation Epic Fury Market Impact Analyzer
 Prof. V. Ravichandran | The Mountain Path - World of Finance
 Analyzes Crude Oil, Gold, Silver & Major Stock Indices
@@ -17,6 +17,11 @@ from datetime import datetime, timedelta
 import scipy.stats as stats
 import warnings
 warnings.filterwarnings('ignore')
+try:
+    import streamlit_analytics2 as streamlit_analytics
+    ANALYTICS_ENABLED = True
+except ImportError:
+    ANALYTICS_ENABLED = False
 
 # ─── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -25,6 +30,10 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# ─── ANALYTICS TRACKING ────────────────────────────────────────────────────────
+if ANALYTICS_ENABLED:
+    streamlit_analytics.start_tracking()
 
 # ─── CRISIS EVENT ───────────────────────────────────────────────────────────────
 CRISIS_DATE = datetime(2026, 2, 28)
@@ -1727,3 +1736,7 @@ Not financial advice. Past market behaviour does not guarantee future results.
 </span>
 </div>
         """, unsafe_allow_html=True)
+
+# ─── ANALYTICS STOP ─────────────────────────────────────────────────────────────
+if ANALYTICS_ENABLED:
+    streamlit_analytics.stop_tracking(unsafe_password="mountainpath2026")
