@@ -440,6 +440,38 @@ div[data-testid="stMetricValue"] {
 }
 
 hr { border-color: rgba(255,215,0,0.15) !important; }
+
+/* ── REFRESH BUTTON ── */
+div[data-testid="stButton"] button {
+    background: linear-gradient(135deg, #003366 0%, #004d80 100%) !important;
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    border: 1.5px solid #FFD700 !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.3px !important;
+    padding: 0.35rem 1rem !important;
+    transition: all 0.2s ease !important;
+}
+div[data-testid="stButton"] button:hover {
+    background: linear-gradient(135deg, #FFD700 0%, #ffb700 100%) !important;
+    color: #003366 !important;
+    -webkit-text-fill-color: #003366 !important;
+    border-color: #FFD700 !important;
+    box-shadow: 0 0 12px rgba(255,215,0,0.4) !important;
+}
+div[data-testid="stButton"] button p,
+div[data-testid="stButton"] button span {
+    color: #FFD700 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+    font-weight: 700 !important;
+}
+div[data-testid="stButton"] button:hover p,
+div[data-testid="stButton"] button:hover span {
+    color: #003366 !important;
+    -webkit-text-fill-color: #003366 !important;
+}
 </style>
 """)
 
